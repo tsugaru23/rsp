@@ -1,0 +1,29 @@
+{
+  "name": "rsp",
+  "version": "1.0.0",
+  "description": "Rock Scissors Paper",
+  "main": "server.js",
+  "dependencies": {
+    "knex": "^0.20.4",
+    "sqlite3": "^4.1.1",
+    "sqlite3-promisify": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsugaru23/rsp.git"
+  },
+  "keywords": [
+    "sfa",
+    "node.js"
+  ],
+  "author": "tsugaru23",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsugaru23/rsp/issues"
+  },
+  "homepage": "https://github.com/tsugaru23/rsp#readme"
+}
