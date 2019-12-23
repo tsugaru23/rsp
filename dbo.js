@@ -4,7 +4,7 @@ const knex = require('knex')({
 	useNullAsDefault:true
 });
 
-class DataSource{
+module.exports = class DataSource{
 
 	connect(conString){
 		this.con = new sqlite3(conString);
@@ -118,11 +118,22 @@ class DataSource{
 		);
 	}
 
+	async update(tbl, keyCol, keyVal, values){
+		let whereCond = {};
+		whereCond[keyCol] = keyVal;
+
+		return await this.execute(
+			knex(tbl)
+			.where(whereCond)
+			.update(values).toString()
+		);
+	}
+
 	close(){
 		this.con.close();
 	}
 }
-
+/*
 async function main(){
 	let dbo = new DataSource("test.db");
 	console.log( await dbo.schemas() );
@@ -142,3 +153,4 @@ async function main(){
 };
 
 main();
+*/

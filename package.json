@@ -4,6 +4,7 @@
   "description": "Rock Scissors Paper",
   "main": "server.js",
   "dependencies": {
+    "fastify": "^2.11.0",
     "knex": "^0.20.4",
     "sqlite3": "^4.1.1",
     "sqlite3-promisify": "^1.0.0"
