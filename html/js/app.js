@@ -121,6 +121,9 @@ var loadData = function(ht, callback){
 					let colId = ht.getColHeader().indexOf(chg[1]);
 					console.log('change[',chg[0],',',colId,']', chg[2],chg[3]);
 
+					if(chg[2] == chg[3] || !chg[2] && chg[3])
+						return;
+
 					let cellMeta = ht.getCellMeta(chg[0], colId);
 					let clsName = 'notsavedyet';
 					if(cellMeta.className){
@@ -137,7 +140,10 @@ var loadData = function(ht, callback){
 					//console.log(updates);
 				});
 				ht.render();
-			},
+			}, /*
+			afterOnCellMouseUp: function(evt, coords, html){
+				console.log(coords);
+			}, */
 			updates: []
         });
 	});
