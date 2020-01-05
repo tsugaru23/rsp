@@ -6,6 +6,7 @@
   "dependencies": {
     "dateformat": "^3.0.3",
     "fastify": "^2.11.0",
+    "fastify-compress": "^2.0.0",
     "knex": "^0.20.4",
     "sqlite3": "^4.1.1",
     "sqlite3-promisify": "^1.0.0",

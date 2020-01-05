@@ -2,6 +2,11 @@ const fastify = require('fastify')({ logger: true });
 const DataSource = require('./dbo');
 const dbo = new DataSource('test.db');
 
+fastify.register(
+  require('fastify-compress'),
+  { global: true }
+);
+
 let schema = null;
 
 // Declare a route
@@ -15,12 +20,28 @@ fastify.get('/dbo/:tbl', async (request, reply) => {
 	return { schema: schema[tbl], data: data };
 })
 fastify.post('/dbo/:tbl', async (request, reply) => {
-	fastify.log.info(request.params);
+	fastify.log.info(request.body);
+	fastify.log.info(request.query);
 
 	let tbl = request.params.tbl;
 	let data = request.body.data;
 	let query= request.query;
-	await dbo.update(tbl, query.key, query.val, data);
+
+	if(Object.keys(query).length > 0)
+		await dbo.update(tbl, query.key, query.val, data);
+	else
+		data.forEach(async function(rec){
+			fastify.log.info(rec);
+			let rowId = rec.id;
+			['id','created_at','updated_at'].forEach(function(ky){
+				if(ky in rec)delete rec[ky];
+			});
+
+			if(rowId)
+				await dbo.update(tbl, 'id', rowId, rec);
+			else
+				await dbo.insert(tbl, rec);
+		});
 
 	return { schema: schema[tbl], data: data };
 })

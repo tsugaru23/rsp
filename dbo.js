@@ -35,6 +35,7 @@ module.exports = class DataSource{
 	}
 
 	async execute(sql, values=[]){
+		console.log(sql);
 		return await this.con.run(sql,values)
 	}
 
