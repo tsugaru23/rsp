@@ -20,7 +20,10 @@ module.exports = class DataSource{
 	}
 
 	async query(sql, values=[]){
-		return await this.con.all(sql,values);
+		console.log(sql);
+		let rows = await this.con.all(sql,values);
+		console.log(rows);
+		return rows;
 	}
 
 	async selectStar(tbl){
@@ -83,13 +86,22 @@ module.exports = class DataSource{
 			knex.raw("PRAGMA table_info(?)", [tbl])
 			.toString()
 		);
+		let seq = await this.con.get(
+			knex.select('seq')
+			.from('sqlite_sequence')
+			.where('name', tbl)
+			.toString()
+		);
+		let hasSeq = (seq && Object.keys(seq).length > 0);
 	
 		for(let c=0; c<cols.length; c++){
 			col = cols[c];
 			colMap[col.name] = {
 				type: col.type,
 				notnull: col.notnull,
-				default: col.dflt_value
+				default: col.dflt_value,
+				pk: (col.pk == 1),
+				isAutoIncrement: (col.pk == 1 && hasSeq)
 			};
 		}
 		return colMap;
